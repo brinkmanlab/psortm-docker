@@ -15,7 +15,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -yq install openssh
     libf2c2 \
     apache2-dev \
     libapache-singleton-perl \
-    libjson-rpc-perl
+    libjson-rpc-perl \
+    cron
 #   fort77 \
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -y install supervisor && apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -29,6 +30,12 @@ ENV APACHE_LOG_DIR /var/log/apache2
 ENV APACHE_LOCK_DIR /var/lock/apache2
 ENV APACHE_PID_FILE /var/run/apache2.pid
 
+WORKDIR /usr/local/src
+
+RUN wget http://www.psort.org/download/docker/apache-psortm.tar.gz && tar zxvf apache-psortm.tar.gz && cd apache-psortm && crontab delete_old_files.cron
+
+# create folder to store output
+RUN mkdir -p /tmp/psortm
 
 WORKDIR /usr/local/src
 
@@ -52,9 +59,9 @@ WORKDIR /usr/local/src
 
 RUN wget http://www.psort.org/download/docker/apache-svm.tar.gz && tar zxvf apache-svm.tar.gz && cd apache-svm && make && cp svmloc.conf /etc/apache2/conf-available/
 
-RUN wget http://www.psort.org/download/docker/startup.txt && mv startup.txt startup.pl && wget http://www.psort.org/download/docker/apache-psort.conf && cp apache-psort.conf /etc/apache2/conf-available/
+RUN wget http://www.psort.org/download/docker/apache-psort.conf && cp apache-psort.conf /etc/apache2/conf-available/
 
-RUN wget http://www.psort.org/download/docker/apache-psortm.tar.gz && tar zxvf apache-psortm.tar.gz && cd apache-psortm && perl Makefile.PL && make && make install
+RUN cd apache-psortm && perl Makefile.PL && make && make install
 
 RUN cd /etc/apache2/conf-enabled/ && ln -s ../conf-available/svmloc.conf && ln -s ../conf-available/apache-psort.conf
 
