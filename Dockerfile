@@ -32,8 +32,6 @@ ENV APACHE_PID_FILE /var/run/apache2.pid
 
 WORKDIR /usr/local/src
 
-RUN wget http://www.psort.org/download/docker/apache-psortm.tar.gz && tar zxvf apache-psortm.tar.gz && cd apache-psortm && crontab delete_old_files.cron
-
 # create folder to store output
 RUN mkdir -p /tmp/psortm
 
@@ -61,7 +59,9 @@ RUN wget http://www.psort.org/download/docker/apache-svm.tar.gz && tar zxvf apac
 
 RUN wget http://www.psort.org/download/docker/apache-psort.conf && cp apache-psort.conf /etc/apache2/conf-available/
 
-RUN cd apache-psortm && perl Makefile.PL && make && make install
+RUN wget http://www.psort.org/download/docker/apache-psortm.tar.gz && tar zxvf apache-psortm.tar.gz && cp apache-psortm/startup.pl startup.pl
+
+RUN cd apache-psortm && crontab delete_old_files.cron && perl Makefile.PL && make && make install
 
 RUN cd /etc/apache2/conf-enabled/ && ln -s ../conf-available/svmloc.conf && ln -s ../conf-available/apache-psort.conf
 
@@ -69,10 +69,10 @@ RUN wget http://www.psort.org/download/docker/Request.pm && cp Request.pm /usr/s
 
 RUN wget http://www.psort.org/download/docker/CGI-FastTemplate-1.09.tar.gz && tar zxvf CGI-FastTemplate-1.09.tar.gz && cd CGI-FastTemplate-1.09 && perl Makefile.PL && make && make install
 
-RUN cd /var/www/html && wget http://www.psort.org/download/docker/psort-web.tar.gz && tar zxvf psort-web.tar.gz
+RUN cd /var/www/html && wget http://www.psort.org/download/docker/psortm-web.tar.gz && tar zxvf psortm-web.tar.gz && cp -r psortm-web/* ./
 
 # Clean up a little
-RUN rm -r pft2.3.4.docker64bit.tar.gz libpsortb-1.0.tar.gz libpsortb-1.0 bio-tools-psort-all.3.0.4.tar.gz bio-tools-psort-all
+RUN rm -r pft2.3.4.docker64bit.tar.gz libpsortb-1.0.tar.gz libpsortb-1.0 bio-tools-psort-all.3.0.4.tar.gz bio-tools-psort-all apache-psortm.tar.gz apache-svm.tar.gz CGI-FastTemplate-1.09.tar.gz /var/www/html/psortm-web.tar.gz
 
 RUN /etc/init.d/apache2 restart
 
@@ -81,3 +81,5 @@ EXPOSE 80
 
 ADD conf/run.sh /opt/
 CMD ["/opt/run.sh"]
+
+#CMD []
