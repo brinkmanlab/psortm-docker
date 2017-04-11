@@ -74,7 +74,11 @@ RUN cd /var/www/html && wget http://www.psort.org/download/docker/psortm-web.tar
 # Clean up a little
 RUN rm -r pft2.3.4.docker64bit.tar.gz libpsortb-1.0.tar.gz libpsortb-1.0 bio-tools-psort-all.3.0.4.tar.gz bio-tools-psort-all apache-psortm.tar.gz apache-svm.tar.gz CGI-FastTemplate-1.09.tar.gz /var/www/html/psortm-web.tar.gz
 
-RUN /etc/init.d/apache2 restart
+# This script starts webserver using "/etc/init.d/apache2 restart"
+RUN wget http://www.psort.org/download/docker/start_apache.sh && chmod +x start_apache.sh
+RUN start_apache.sh
+
+#RUN /etc/init.d/apache2 restart
 
 # Expose the web service to the world
 EXPOSE 80
@@ -82,4 +86,3 @@ EXPOSE 80
 ADD conf/run.sh /opt/
 CMD ["/opt/run.sh"]
 
-#CMD []
