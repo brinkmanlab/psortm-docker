@@ -33,7 +33,7 @@ ENV APACHE_PID_FILE /var/run/apache2.pid
 WORKDIR /usr/local/src
 
 # create folder to store output
-RUN mkdir -p /tmp/psortm
+RUN mkdir -p /tmp/psortm && chmod 777 /tmp/psortm
 
 WORKDIR /usr/local/src
 
