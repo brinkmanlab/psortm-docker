@@ -75,13 +75,15 @@ RUN wget http://www.psort.org/download/docker/CGI-FastTemplate-1.09.tar.gz && ta
 RUN cd /var/www/html && wget http://www.psort.org/download/docker/psortm-web.tar.gz && tar zxvf psortm-web.tar.gz && cp -r psortm-web/* ./ && wget http://www.psort.org/download/docker/taxon_predictor.tar.gz && tar zxvf taxon_predictor.tar.gz  
 
 # Clean up a little
-RUN rm -r pft2.3.4.docker64bit.tar.gz libpsortb-1.0.tar.gz libpsortb-1.0 bio-tools-psort-all.3.0.4.tar.gz bio-tools-psort-all apache-psortm.tar.gz apache-svm.tar.gz CGI-FastTemplate-1.09.tar.gz /var/www/html/psortm-web.tar.gz var/www/html/taxon_predictor.tar.gz
+RUN rm -r pft2.3.4.docker64bit.tar.gz libpsortb-1.0.tar.gz libpsortb-1.0 bio-tools-psort-all.3.0.4.tar.gz bio-tools-psort-all apache-psortm.tar.gz apache-svm.tar.gz CGI-FastTemplate-1.09.tar.gz /var/www/html/psortm-web.tar.gz /var/www/html/taxon_predictor.tar.gz
+
+WORKDIR /usr/local/src/apache-psortm
 
 # This script starts webserver using "/etc/init.d/apache2 restart"
-RUN wget http://www.psort.org/download/docker/start_apache.sh && chmod +x start_apache.sh && mv /etc/init.d/apache2 /etc/init.d/apache2.orig && sed -e "s/20/60/g" < /etc/init.d/apache2.orig > /etc/init.d/apache2 
-#RUN start_apache.sh 
+RUN chmod +x start_apache.sh && mv /etc/init.d/apache2 /etc/init.d/apache2.orig && sed -e "s/20/60/g" < /etc/init.d/apache2.orig > /etc/init.d/apache2 
 
-RUN /etc/init.d/apache2 restart
+CMD ["/usr/local/src/apache-psortm/start_apache.sh"] 
+#RUN /etc/init.d/apache2 restart
 
 # Expose the web service to the world
 EXPOSE 80
