@@ -31,7 +31,7 @@ The Docker image exposes port 80, if this doesn't work for you, rather than "mak
 ```bash
     $ docker run -d -p 8888:80 --restart=always --name psortm brinkmanlab/psortm:1.0.0
 ```
-By default, psortm-docker will ask you to download your results in a zip file on comletion of each run. If you prefer to keep the results in a more accessible way, you can mount a local directory inside the Docker instance. To do this, add the -v option to the docker run command to specify a local directory first (which must be an accessible directory in your environment), followed by :/tmp (/tmp exists inside the docker instance so you need to use this directory name). Specify it like this:
+By default, psortm-docker will ask you to download your results as a zip file on completion of each run. If you prefer to manage the results in a way that allows better accessibility, you can mount a local directory inside the Docker instance. To do this, add the -v option to the docker run command to specify a local directory first (which must be a directory in your environment with write access), followed by /tmp (/tmp exists inside the docker instance so you need to use this exact directory name). Specify it like this:
 
 ```bash
     $ docker run -d -p 8888:80 --restart=always -v /data/psortm_results:/tmp --name psortm brinkmanlab/psortm:2
