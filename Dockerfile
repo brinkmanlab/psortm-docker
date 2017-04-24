@@ -89,5 +89,6 @@ CMD ["/usr/local/src/apache-psortm/start_apache.sh"]
 EXPOSE 80
 
 ADD conf/run.sh /opt/
+RUN chmod +x /opt/run.sh
 CMD ["/opt/run.sh"]
 
