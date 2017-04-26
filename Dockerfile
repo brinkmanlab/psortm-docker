@@ -77,6 +77,9 @@ RUN cd /var/www/html && wget http://www.psort.org/download/docker/psortm-web.tar
 # Clean up a little
 RUN rm -r pft2.3.4.docker64bit.tar.gz libpsortb-1.0.tar.gz libpsortb-1.0 bio-tools-psort-all.3.0.4.tar.gz bio-tools-psort-all apache-psortm.tar.gz apache-svm.tar.gz CGI-FastTemplate-1.09.tar.gz /var/www/html/psortm-web.tar.gz /var/www/html/taxon_predictor.tar.gz
 
+# set the timezone - it is printed to a log for large sequence submissions
+RUN rm /etc/localtime && ln -s /usr/share/zoneinfo/Canada/Pacific /etc/localtime
+
 WORKDIR /usr/local/src/apache-psortm
 
 # This script starts webserver using "/etc/init.d/apache2 restart"
