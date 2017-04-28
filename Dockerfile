@@ -62,7 +62,7 @@ RUN wget http://www.psort.org/download/docker/apache-svm.tar.gz && tar zxvf apac
 
 RUN wget http://www.psort.org/download/docker/apache-psort.conf && cp apache-psort.conf /etc/apache2/conf-available/
 
-RUN wget http://www.psort.org/download/docker/apache-psortm.tar.gz && tar zxvf apache-psortm.tar.gz && cp apache-psortm/startup.pl startup.pl
+RUN wget http://www.psort.org/download/docker/apache-psortm.tar.gz && tar zxvf apache-psortm.tar.gz && cp apache-psortm/startup.pl startup.pl 
 
 RUN cd apache-psortm && crontab delete_old_files.cron && perl Makefile.PL && make && make install
 
@@ -83,9 +83,10 @@ RUN rm /etc/localtime && ln -s /usr/share/zoneinfo/Canada/Pacific /etc/localtime
 WORKDIR /usr/local/src/apache-psortm
 
 # This script starts webserver using "/etc/init.d/apache2 restart"
-RUN chmod +x start_apache.sh && mv /etc/init.d/apache2 /etc/init.d/apache2.orig && sed -e "s/20/60/g" < /etc/init.d/apache2.orig > /etc/init.d/apache2 
+RUN chmod +x start_apache.sh && mv /etc/init.d/apache2 /etc/init.d/apache2.orig && sed -e "s/20/60/g" < /etc/init.d/apache2.orig > /etc/init.d/apache2
 
-CMD ["/usr/local/src/apache-psortm/start_apache.sh"] 
+CMD ["echo \"$MOUNT_DIRECTORY\" > /var/www/html/mount_dir.conf && chmod 755 /var/www/html/mount_dir.conf"]
+CMD ["/usr/local/src/apache-psortm/start_apache.sh"]
 #RUN /etc/init.d/apache2 restart
 
 # Expose the web service to the world
