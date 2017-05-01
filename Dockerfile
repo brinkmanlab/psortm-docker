@@ -85,7 +85,7 @@ WORKDIR /usr/local/src/apache-psortm
 # This script starts webserver using "/etc/init.d/apache2 restart"
 RUN chmod +x start_apache.sh && mv /etc/init.d/apache2 /etc/init.d/apache2.orig && sed -e "s/20/60/g" < /etc/init.d/apache2.orig > /etc/init.d/apache2
 
-CMD ["echo \"$MOUNT_DIRECTORY\" > /var/www/html/mount_dir.conf && chmod 755 /var/www/html/mount_dir.conf"]
+CMD ['echo $MOUNT_DIRECTORY > /var/www/html/mount_dir.conf && chmod 755 /var/www/html/mount_dir.conf']
 CMD ["/usr/local/src/apache-psortm/start_apache.sh"]
 #RUN /etc/init.d/apache2 restart
 
