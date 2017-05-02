@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:16.04
 MAINTAINER Gemma Hoad <ghoad@sfu.ca>
 
 # Install packages then remove cache package list information
@@ -36,7 +36,8 @@ ENV APACHE_PID_FILE /var/run/apache2.pid
 WORKDIR /usr/local/src
 
 # create folder to store output
-RUN mkdir -p /tmp/psortm && chmod 777 /tmp/psortm
+RUN mkdir -p /tmp/psortm 
+RUN chmod 777 /tmp/psortm
 
 WORKDIR /usr/local/src
 
