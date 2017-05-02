@@ -73,7 +73,9 @@ RUN wget http://www.psort.org/download/docker/Request.pm && cp Request.pm /usr/s
 
 RUN wget http://www.psort.org/download/docker/CGI-FastTemplate-1.09.tar.gz && tar zxvf CGI-FastTemplate-1.09.tar.gz && cd CGI-FastTemplate-1.09 && perl Makefile.PL && make && make install
 
-RUN cd /var/www/html && wget http://www.psort.org/download/docker/psortm-web.tar.gz && tar zxvf psortm-web.tar.gz && cp -r psortm-web/* ./ && wget http://www.psort.org/download/docker/taxon_predictor.tar.gz && tar xvf taxon_predictor.tar.gz && chmod -R 777 taxon_predictor  
+RUN cd /var/www/html && wget http://www.psort.org/download/docker/psortm-web.tar.gz && tar zxvf psortm-web.tar.gz && cp -r psortm-web/* ./ && wget http://www.psort.org/download/docker/taxon_predictor.tar.gz && tar xvf taxon_predictor.tar.gz
+
+RUN chmod -R 777 /var/www/html/taxon_predictor  
 
 # Clean up a little
 RUN rm -r pft2.3.4.docker64bit.tar.gz libpsortb-1.0.tar.gz libpsortb-1.0 bio-tools-psort-all.3.0.4.tar.gz bio-tools-psort-all apache-psortm.tar.gz apache-svm.tar.gz CGI-FastTemplate-1.09.tar.gz /var/www/html/psortm-web.tar.gz /var/www/html/taxon_predictor.tar.gz
@@ -86,7 +88,7 @@ WORKDIR /usr/local/src/apache-psortm
 # This script starts webserver using "/etc/init.d/apache2 restart"
 RUN chmod +x start_apache.sh && mv /etc/init.d/apache2 /etc/init.d/apache2.orig && sed -e "s/20/60/g" < /etc/init.d/apache2.orig > /etc/init.d/apache2
 
-CMD ['echo $MOUNT_DIRECTORY > /var/www/html/mount_dir.conf']
+CMD ['echo $MOUNT_DIRECTORY > /var/www/html/mounted_dir.conf']
 CMD ["/usr/local/src/apache-psortm/start_apache.sh"]
 #RUN /etc/init.d/apache2 restart
 
