@@ -37,7 +37,6 @@ WORKDIR /usr/local/src
 
 # create folder to store output
 RUN mkdir -p /tmp/psortm 
-RUN chmod 777 /tmp/psortm
 
 WORKDIR /usr/local/src
 
@@ -75,8 +74,6 @@ RUN wget http://www.psort.org/download/docker/CGI-FastTemplate-1.09.tar.gz && ta
 
 RUN cd /var/www/html && wget http://www.psort.org/download/docker/psortm-web.tar.gz && tar zxvf psortm-web.tar.gz && cp -r psortm-web/* ./ && wget http://www.psort.org/download/docker/taxon_predictor.tar.gz && tar xvf taxon_predictor.tar.gz
 
-RUN chmod -R 777 /var/www/html/taxon_predictor  
-
 # Clean up a little
 RUN rm -r pft2.3.4.docker64bit.tar.gz libpsortb-1.0.tar.gz libpsortb-1.0 bio-tools-psort-all.3.0.4.tar.gz bio-tools-psort-all apache-psortm.tar.gz apache-svm.tar.gz CGI-FastTemplate-1.09.tar.gz /var/www/html/psortm-web.tar.gz /var/www/html/taxon_predictor.tar.gz
 
@@ -85,12 +82,8 @@ RUN rm /etc/localtime && ln -s /usr/share/zoneinfo/Canada/Pacific /etc/localtime
 
 WORKDIR /usr/local/src/apache-psortm
 
-# This script starts webserver using "/etc/init.d/apache2 restart"
+# Configure the web server so it doesn't timeout upon restart
 RUN chmod +x start_apache.sh && mv /etc/init.d/apache2 /etc/init.d/apache2.orig && sed -e "s/20/60/g" < /etc/init.d/apache2.orig > /etc/init.d/apache2
-
-CMD ['echo $MOUNT_DIRECTORY > /var/www/html/mounted_dir.conf']
-CMD ["/usr/local/src/apache-psortm/start_apache.sh"]
-#RUN /etc/init.d/apache2 restart
 
 # Expose the web service to the world
 EXPOSE 80
