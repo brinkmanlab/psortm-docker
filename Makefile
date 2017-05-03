@@ -30,7 +30,7 @@ push:
 	docker push $(IMAGE_NAME):$(VERSION)
 
 run:
-	docker run -d -p 80:80 -v /tmp:/tmp/psortm -e NODE_ENVIRONMENT="production" -e MOUNT_DIRECTORY="/tmp" --restart=always --name $(NAME) $(IMAGE_NAME):$(VERSION)
+	docker run -d -p 8000:80 -v /tmp:/tmp/psortm -e NODE_ENVIRONMENT="production" -e MOUNT_DIRECTORY="/tmp/psortm" --restart=always --name $(NAME) $(IMAGE_NAME):$(VERSION)
 
 start:
 	@echo "Starting $(NAME)..."
