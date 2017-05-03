@@ -74,6 +74,8 @@ RUN wget http://www.psort.org/download/docker/CGI-FastTemplate-1.09.tar.gz && ta
 
 RUN cd /var/www/html && wget http://www.psort.org/download/docker/psortm-web.tar.gz && tar zxvf psortm-web.tar.gz && cp -r psortm-web/* ./ && wget http://www.psort.org/download/docker/taxon_predictor.tar.gz && tar xvf taxon_predictor.tar.gz
 
+RUN cp /usr/share/perl5/Net/HTTP/Methods.pm /usr/share/perl5/Net/HTTP/Methods.pm.orig && mv /var/www/html/psortm-web/Methods.pm /usr/share/perl5/Net/HTTP/ 
+
 # Clean up a little
 RUN rm -r pft2.3.4.docker64bit.tar.gz libpsortb-1.0.tar.gz libpsortb-1.0 bio-tools-psort-all.3.0.4.tar.gz bio-tools-psort-all apache-psortm.tar.gz apache-svm.tar.gz CGI-FastTemplate-1.09.tar.gz /var/www/html/psortm-web.tar.gz /var/www/html/taxon_predictor.tar.gz
 
