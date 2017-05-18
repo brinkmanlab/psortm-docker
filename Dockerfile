@@ -72,12 +72,14 @@ RUN wget http://www.psort.org/download/docker/Request.pm && cp Request.pm /usr/s
 
 RUN wget http://www.psort.org/download/docker/CGI-FastTemplate-1.09.tar.gz && tar zxvf CGI-FastTemplate-1.09.tar.gz && cd CGI-FastTemplate-1.09 && perl Makefile.PL && make && make install
 
-RUN cd /var/www/html && wget http://www.psort.org/download/docker/psortm-web.tar.gz && tar zxvf psortm-web.tar.gz && cp -r psortm-web/* ./ && wget http://www.psort.org/download/docker/taxon_predictor.tar.gz && tar xvf taxon_predictor.tar.gz
+RUN cd /var/www/html && wget http://www.psort.org/download/docker/psortm-web.tar.gz && tar zxvf psortm-web.tar.gz && mv /var/www/html/psortm-web/* /var/www/html/ && wget http://www.psort.org/download/docker/taxon_predictor.tar.gz && tar zxvf taxon_predictor.tar.gz
 
-RUN cp /usr/share/perl5/Net/HTTP/Methods.pm /usr/share/perl5/Net/HTTP/Methods.pm.orig && mv /var/www/html/psortm-web/Methods.pm /usr/share/perl5/Net/HTTP/ 
+RUN cp /usr/share/perl5/Net/HTTP/Methods.pm /usr/share/perl5/Net/HTTP/Methods.pm.orig && mv /var/www/html/perlmod/Methods.pm /usr/share/perl5/Net/HTTP/
+
+RUN mv /var/www/html/perlmod/long.pm /usr/local/lib/x86_64-linux-gnu/perl/5.22.1/Bio/Tools/PSort/Report/Formatter/ &&  mv /var/www/html/perlmod/*.pm /usr/local/lib/x86_64-linux-gnu/perl/5.22.1/Bio/Tools/PSort/Module/ && mv /usr/local/lib/x86_64-linux-gnu/perl/5.22.1/Bio/Tools/PSort/Module/Signal.pm /usr/local/lib/x86_64-linux-gnu/perl/5.22.1/Bio/Tools/PSort/Module/Signal.pm.orig
 
 # Clean up a little
-RUN rm -r pft2.3.4.docker64bit.tar.gz libpsortb-1.0.tar.gz libpsortb-1.0 bio-tools-psort-all.3.0.4.tar.gz bio-tools-psort-all apache-psortm.tar.gz apache-svm.tar.gz CGI-FastTemplate-1.09.tar.gz /var/www/html/psortm-web.tar.gz /var/www/html/taxon_predictor.tar.gz
+RUN rm -r pft2.3.4.docker64bit.tar.gz libpsortb-1.0.tar.gz libpsortb-1.0 bio-tools-psort-all.3.0.4.tar.gz bio-tools-psort-all apache-psortm.tar.gz apache-svm.tar.gz CGI-FastTemplate-1.09.tar.gz /var/www/html/psortm-web.tar.gz /var/www/html/taxon_predictor.tar.gz && rmdir /var/www/html/psortm-web && rmdir /var/www/html/perlmod
 
 # set the timezone - it is printed to a log for large sequence submissions
 RUN rm /etc/localtime && ln -s /usr/share/zoneinfo/Canada/Pacific /etc/localtime
@@ -85,7 +87,7 @@ RUN rm /etc/localtime && ln -s /usr/share/zoneinfo/Canada/Pacific /etc/localtime
 WORKDIR /usr/local/src/apache-psortm
 
 # Configure the web server so it doesn't timeout upon restart
-RUN chmod +x start_apache.sh && mv /etc/init.d/apache2 /etc/init.d/apache2.orig && sed -e "s/20/60/g" < /etc/init.d/apache2.orig > /etc/init.d/apache2
+RUN chmod +x start_apache.sh && mv /etc/init.d/apache2 /etc/init.d/apache2.orig && sed -e "s/20/60/g" < /etc/init.d/apache2.orig > /etc/init.d/apache2 && chmod 755 /etc/init.d/apache2
 
 # Expose the web service to the world
 EXPOSE 80
