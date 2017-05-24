@@ -35,3 +35,6 @@ The full list of available commands:
      make state        - View state psortm container
      make logs         - View logs in real time
 ```
+
+## License
+PSORTm is distributed under [GNU General Public License Version 3](https://github.com/brinkmanlab/psortm-docker/blob/master/LICENSE).
