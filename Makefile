@@ -14,8 +14,6 @@ help:
 	@echo "-- Help Menu"
 	@echo ""
 	@echo "     make build        - Build image $(IMAGE_NAME)"
-	@echo "     make push         - Push $(IMAGE_NAME) to public docker repo"
-	@echo "     make run          - Run $(NAME) container"
 	@echo "     make start        - Start the EXISTING $(NAME) container"
 	@echo "     make stop         - Stop $(NAME) container"
 	@echo "     make restart      - Stop and start $(NAME) container"
@@ -25,12 +23,6 @@ help:
 
 build:
 	docker build --rm --no-cache -t $(IMAGE_NAME):$(VERSION) .
-
-push:
-	docker push $(IMAGE_NAME):$(VERSION)
-
-run:
-	docker run -d -p 8000:80 -v /tmp:/tmp/psortm -e NODE_ENVIRONMENT="production" -e MOUNT_DIRECTORY="/tmp/psortm" --restart=always --name $(NAME) $(IMAGE_NAME):$(VERSION)
 
 start:
 	@echo "Starting $(NAME)..."
