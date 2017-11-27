@@ -46,7 +46,7 @@ RUN wget http://www.psort.org/download/docker/pft2.3.4.docker64bit.tar.gz && tar
 
 RUN wget http://www.psort.org/download/libpsortb-1.0.tar.gz && tar zxvf libpsortb-1.0.tar.gz && cd libpsortb-1.0 && ./configure && make && make install && ldconfig
 
-RUN wget http://www.psort.org/download/bio-tools-psort-all.3.0.4.tar.gz && tar zxvf bio-tools-psort-all.3.0.4.tar.gz
+RUN wget http://www.psort.org/download/bio-tools-psort-all.3.0.5.tar.gz && tar zxvf bio-tools-psort-all.3.0.5.tar.gz
 
 WORKDIR /usr/local/src/bio-tools-psort-all
 
@@ -81,7 +81,7 @@ RUN mv /usr/local/lib/x86_64-linux-gnu/perl/5.22.1/Bio/Tools/PSort/Report/Format
 RUN cp -r /usr/local/lib/x86_64-linux-gnu/perl/5.22.1/Bio/Tools/PSort/Module /usr/local/lib/x86_64-linux-gnu/perl/5.22.1/Bio/Tools/PSort/Module_bak && mv /var/www/html/perlmod/*.pm /usr/local/lib/x86_64-linux-gnu/perl/5.22.1/Bio/Tools/PSort/Module/ && mv /usr/local/lib/x86_64-linux-gnu/perl/5.22.1/Bio/Tools/PSort/Module/Signal.pm /usr/local/lib/x86_64-linux-gnu/perl/5.22.1/Bio/Tools/PSort/Module/Signal.pm.orig
 
 # Clean up a little
-RUN rm -r pft2.3.4.docker64bit.tar.gz libpsortb-1.0.tar.gz libpsortb-1.0 bio-tools-psort-all.3.0.4.tar.gz bio-tools-psort-all apache-psortm.tar.gz apache-svm.tar.gz CGI-FastTemplate-1.09.tar.gz /var/www/html/psortm-web.tar.gz /var/www/html/taxon_predictor.tar.gz && rmdir /var/www/html/psortm-web && rmdir /var/www/html/perlmod
+RUN rm -r pft2.3.4.docker64bit.tar.gz libpsortb-1.0.tar.gz libpsortb-1.0 bio-tools-psort-all.3.0.5.tar.gz bio-tools-psort-all apache-psortm.tar.gz apache-svm.tar.gz CGI-FastTemplate-1.09.tar.gz /var/www/html/psortm-web.tar.gz /var/www/html/taxon_predictor.tar.gz && rmdir /var/www/html/psortm-web && rmdir /var/www/html/perlmod
 
 # set the timezone - it is printed to a log for large sequence submissions
 RUN rm /etc/localtime && ln -s /usr/share/zoneinfo/Canada/Pacific /etc/localtime
