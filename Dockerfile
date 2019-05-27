@@ -46,7 +46,7 @@ RUN wget http://www.psort.org/download/docker/pft2.3.4.docker64bit.tar.gz && tar
 
 RUN wget http://www.psort.org/download/libpsortb-1.0.tar.gz && tar zxvf libpsortb-1.0.tar.gz && cd libpsortb-1.0 && ./configure && make && make install && ldconfig
 
-RUN wget http://www.psort.org/download/bio-tools-psort-all.3.0.5.tar.gz && tar zxvf bio-tools-psort-all.3.0.5.tar.gz
+RUN wget http://www.psort.org/download/bio-tools-psort-all.3.0.6.tar.gz && tar zxvf bio-tools-psort-all.3.0.6.tar.gz
 
 WORKDIR /usr/local/src/bio-tools-psort-all
 
